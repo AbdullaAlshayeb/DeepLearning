@@ -26,17 +26,17 @@ def load_dataset():
 
 def load_models():
     resnet_model = load_model("data/resnet.keras", custom_objects={'f1_score': f1_score})
-    densenet_model = load_model("data/densenet.keras")
-    xception_model = load_model("data/xception.keras")
+    densenet_model = load_model("data/densenet.keras", custom_objects={'f1_score': f1_score})
+    xception_model = load_model("data/xception.keras", custom_objects={'f1_score': f1_score})
 
     return resnet_model, densenet_model, xception_model
 
 # Preprocessing Function
 def preprocessing_image(img, model_type='resnet'):
     img = tf.image.rgb_to_grayscale(img) if model_type == 'resnet' else img
-    img = tf.image.resize(img,(28, 28, 1) if model_type == 'resnet' else (224, 224, 3))
+    img = tf.image.resize(img,(28, 28) if model_type == 'resnet' else (224, 224))
     img= tf.cast(img, tf.float32) / 255.0
-
+    print(img.shape)
     return img
 
 # Predict output of image

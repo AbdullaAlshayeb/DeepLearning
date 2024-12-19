@@ -35,13 +35,19 @@ def load_models():
 # Preprocessing Function
 def preprocessing_image(img, model_type='resnet'):
     img = tf.image.rgb_to_grayscale(img) if model_type == 'resnet' else img
-    img = tf.image.resize(img,(28, 28) if model_type == 'resnet' else (224, 224))
+    img = tf.image.resize(img,(28, 28) if model_type == 'resnet' else (128, 128))
     img= tf.cast(img, tf.float32) / 255.0
-    st.write(img.shape)
+
+    if len(img.shape) == 3:
+        img = tf.expand_dims(img, axis=0)
+        st.write('Expanded Image Shape:', img.shape)
+
+    st.write('Preprocessed Image Shape:', img.shape)
     return img
 
 # Predict output of image
 def predict_image(model, image):
+    st.write(image.shape)
     pred = model.predict(image)
     pred = np.argmax(pred, axis=1)
     return pred[0]

@@ -17,12 +17,6 @@ load_weights()
 
 resnet_model, densenet_model, xception_model = setup_models()
 
-try:
-    resnet_model.summary()
-    st.write("ResNet Model Loaded Successfully")
-except:
-    st.write("ResNet Model Failed to Load")
-    
 def main():
     st.title("Letter Recognition App")
     st.write("Draw a character, upload an image, and predict the class.")

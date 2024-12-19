@@ -1,6 +1,7 @@
 import numpy as np
 import kaggle
 import tensorflow as tf
+import streamlit as st
 from tensorflow.keras.models import load_model
 from keras.saving import register_keras_serializable
 class_names = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'd', 'e', 'f', 'g', 'h', 'n', 'q', 'r', 't']
@@ -36,7 +37,7 @@ def preprocessing_image(img, model_type='resnet'):
     img = tf.image.rgb_to_grayscale(img) if model_type == 'resnet' else img
     img = tf.image.resize(img,(28, 28) if model_type == 'resnet' else (224, 224))
     img= tf.cast(img, tf.float32) / 255.0
-    print(img.shape)
+    st.write(img.shape)
     return img
 
 # Predict output of image

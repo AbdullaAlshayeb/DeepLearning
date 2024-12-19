@@ -17,6 +17,12 @@ load_weights()
 
 resnet_model, densenet_model, xception_model = setup_models()
 
+try:
+    resnet_model.summary()
+    print("This file contains both architecture and weights")
+except:
+    print("This file might contain only weights")
+
 def main():
     st.title("Letter Recognition App")
     st.write("Draw a character, upload an image, and predict the class.")

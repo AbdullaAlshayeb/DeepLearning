@@ -2,15 +2,30 @@ import numpy as np
 import kaggle
 import tensorflow as tf
 from tensorflow.keras.models import load_model
-
+from keras.saving import register_keras_serializable
 class_names = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'd', 'e', 'f', 'g', 'h', 'n', 'q', 'r', 't']
+
+@register_keras_serializable()
+def f1_score(y_true, y_pred):
+    y_true = tf.cast(y_true, tf.float32)
+    y_pred = tf.round(tf.nn.sigmoid(y_pred))  # Round predicted values to 0 or 1
+
+    tp = tf.reduce_sum(y_true * y_pred)  # True positives
+    fp = tf.reduce_sum((1 - y_true) * y_pred)  # False positives
+    fn = tf.reduce_sum(y_true * (1 - y_pred))  # False negatives
+
+    precision = tp / (tp + fp + tf.keras.backend.epsilon())
+    recall = tp / (tp + fn + tf.keras.backend.epsilon())
+
+    f1 = 2 * (precision * recall) / (precision + recall + tf.keras.backend.epsilon())
+    return f1
 
 def load_dataset():
     kaggle.api.authenticate()
     kaggle.api.dataset_download_files('oyounis/model-weights-dataset', path='data/', unzip=True)
 
 def load_models():
-    resnet_model = load_model("data/resnet.keras")
+    resnet_model = load_model("data/resnet.keras", custom_objects={'f1_score': f1_score})
     densenet_model = load_model("data/densenet.keras")
     xception_model = load_model("data/xception.keras")
 

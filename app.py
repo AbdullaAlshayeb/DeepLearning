@@ -57,12 +57,12 @@ def main():
     # Predict button
     if st.button("Predict"):
         # Make prediction
-        try:
+        # try:
             image = preprocessing_image(image, model_type=model_choice.lower())
             prediction = predict_image(model, image)
             st.write(f"Predicted Class: {class_names[prediction]}")
-        except Exception as e:
-            st.error(f"Prediction failed: {str(e)}")
+        # except Exception as e:
+        #     st.error(f"Prediction failed: {str(e)}")
 
 if __name__ == "__main__":
     main()

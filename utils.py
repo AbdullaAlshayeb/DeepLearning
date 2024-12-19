@@ -3,6 +3,7 @@ import kaggle
 import tensorflow as tf
 from tensorflow.keras.models import load_model
 from keras.saving import register_keras_serializable
+
 class_names = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'd', 'e', 'f', 'g', 'h', 'n', 'q', 'r', 't']
 
 @register_keras_serializable()
